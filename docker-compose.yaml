@@ -1,30 +1,61 @@
-version: "4.0"
-
+version: '4.0'
 services:
-  product-service:
-    platform: linux/x86_64
-    build: spring-cloud-open-telemetry1/
+  config-server:
+    build: config-server/
     ports:
-      - "8080:8080"
-
-  price-service:
-    platform: linux/x86_64
-    build: spring-cloud-open-telemetry2/
+    - 8888:8888
+  eureka-server:
+    build: eureka-server/
     ports:
-      - "8081"
-
+    - 9000:9000
+    depends_on:
+    - config-server
   jaeger-service:
     image: jaegertracing/all-in-one:latest
     ports:
-      - "16686:16686"
-      - "14250"
-
+    - 16686:16686
+    - '14250'
+  address-service:
+    platform: linux/x86_64
+    build: address-service/
+    ports:
+    - 8080:8080
+    depends_on:
+    - config-server
+    - eureka-server
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:9000/eureka    
+      SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+  student-service:
+    platform: linux/x86_64
+    build: student-service/
+    ports:
+    - '8081'
+    depends_on:
+    - config-server
+    - eureka-server
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:9000/eureka    
+      SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+  api-cloud-gateway:
+    build: api-gateway/
+    ports:
+      - "8085:8085"
+    depends_on: 
+      - config-server
+      - eureka-server
+      - address-service
+      - student-service
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:9000/eureka
+      SPRING_CLOUD_CONFIG_URI: http://config-server:8888
   collector:
     image: otel/opentelemetry-collector:0.72.0
-    command: [ "--config=/etc/otel-collector-config.yml" ]
+    command:
+    - --config=/etc/otel-collector-config.yml
     volumes:
-      - ./otel-config.yml:/etc/otel-collector-config.yml
+    - ./otel-config.yml:/etc/otel-collector-config.yml
     ports:
-      - "4317:4317"
+    - 4317:4317
     depends_on:
-      - jaeger-service
+    - jaeger-service

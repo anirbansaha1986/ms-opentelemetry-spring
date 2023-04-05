@@ -27,6 +27,8 @@ public class AddressService {
 		
 		addressRepository.save(address);
 		
+		LOGGER.info("Address Created");
+		
 		return new AddressResponse(address);
 		
 	}
@@ -37,8 +39,8 @@ public class AddressService {
 		
 		Address address = addressRepository.findById(id).get();
 		
-		if(address.getId() > 0){
-	        LOGGER.error("Price Not Found for Address Id {}", id);
+		if(address == null){
+	        LOGGER.error("Address Not Found with Address Id {}", id);
 	        throw new AddressNotFoundException("Address Not Found");
 	    }
 		
