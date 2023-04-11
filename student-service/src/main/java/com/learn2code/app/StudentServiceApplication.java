@@ -19,8 +19,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 @EnableEurekaClient
 public class StudentServiceApplication {
 
-	@Value("${address.service.url}")
-	private String addressServiceUrl;
+	@Value("${mentor.service.url}")
+	private String mentorServiceUrl;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(StudentServiceApplication.class, args);
@@ -29,7 +29,7 @@ public class StudentServiceApplication {
 	@Bean
 	public WebClient webClient () {
 		WebClient webClient = WebClient.builder()
-				.baseUrl(addressServiceUrl).build();
+				.baseUrl(mentorServiceUrl).build();
 		return webClient;
 	}
 

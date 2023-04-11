@@ -24,7 +24,7 @@ public class CommonService {
 	APIGatewayFeignClient apiGatewayFeignClient;
 
 	//name will be same that you provided in application.properties file
-		@CircuitBreaker(name="mentorService", fallbackMethod= "fallbackGetAddressById")
+		@CircuitBreaker(name="mentorService", fallbackMethod= "fallbackGetMentorById")
 		public MentorResponse getMentorById (long mentorId) {
 			logger.info("count = " + count);
 			count++;
@@ -32,12 +32,12 @@ public class CommonService {
 			return mentorResponse;
 		}
 		
-		public MentorResponse fallbackGetAddressById (long addressId, Throwable th) {
+		public MentorResponse fallbackGetMentorById (long mentorId, Throwable th) {
 			logger.error("Error = " + th);
 			return new MentorResponse();
 		}
 		
-		@CircuitBreaker(name="mentorService", fallbackMethod= "fallbackGetAddressById")
+		@CircuitBreaker(name="mentorService", fallbackMethod= "fallbackGetMentorById")
 		public MentorResponse getMentorByIdViaGateway (long mentorId) {
 			logger.info("count = " + count);
 			count++;

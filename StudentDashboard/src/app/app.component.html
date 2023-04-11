@@ -55,16 +55,11 @@
             </div>
             <div class="form-group">
               <label for="email">Email :</label>
-              <input type="text" #address [(ngModel)]="studentDetailsUpdate.email" name="email" id="email"
+              <input type="text" #email [(ngModel)]="studentDetailsUpdate.email" name="email" id="email"
                 class="form-control" placeholder="Student Email">
             </div>
             <div class="form-group">
-              <label for="city">City :</label>
-              <input type="text" #percentage [(ngModel)]="studentDetailsUpdate.city" name="city"
-                id="city" class="form-control" placeholder="Student City">
-            </div>
-            <div class="form-group">
-              <label for="city">City :</label>
+              <label for="city">Mentor :</label>
               <input type="text" #percentage [(ngModel)]="studentDetailsUpdate.city" name="city"
                 id="city" class="form-control" placeholder="Student City">
             </div>
@@ -114,14 +109,19 @@
         <div class="modal-body">
           <form #updateForm="ngForm" (ngSubmit)="createOrUpdateMentor()">
             <div class="form-group">
-              <label for="street">Street:</label>
-              <input type="text" #street (ngModel)="street" name="street"
-                id="street" class="form-control" placeholder="Streat">
+              <label for="firstName">First Name :</label>
+              <input type="text" #fname [(ngModel)]="studentDetailsUpdate.firstName" name="firstName"
+                id="firstName" class="form-control" placeholder="Student First Name">
             </div>
             <div class="form-group">
-              <label for="city">City:</label>
-              <input type="text" #city (ngModel)="city" name="city" id="city" class="form-control"
-                placeholder="City">
+              <label for="lastName">Last Name :</label>
+              <input type="text" #lname [(ngModel)]="studentDetailsUpdate.lastName" name="lastName" id="lastName" class="form-control"
+                placeholder="Student Last Name">
+            </div>
+            <div class="form-group">
+              <label for="email">Email :</label>
+              <input type="text" #email [(ngModel)]="studentDetailsUpdate.email" name="email" id="email"
+                class="form-control" placeholder="Student Email">
             </div>
             <div class="form-group">
               <input type="submit" value="Register" class="btn btn-primary w-100">

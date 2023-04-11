@@ -2,34 +2,35 @@ package com.learn2code.response;
 
 public class MentorResponse {
 
-	private long addressId;
-
-	private String street;
-
-	private String city;
-
-	public long getAddressId() {
-		return addressId;
+	private long mentorId;
+	private String firstName;
+	private String lastName;
+	private String email;
+	
+	public long getMentorId() {
+		return mentorId;
 	}
-
-	public void setAddressId(long addressId) {
-		this.addressId = addressId;
+	public void setMentorId(long mentorId) {
+		this.mentorId = mentorId;
 	}
-
-	public String getStreet() {
-		return street;
+	public String getFirstName() {
+		return firstName;
 	}
-
-	public void setStreet(String street) {
-		this.street = street;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
-
-	public String getCity() {
-		return city;
+	public String getLastName() {
+		return lastName;
 	}
-
-	public void setCity(String city) {
-		this.city = city;
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
-
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	
 }
+

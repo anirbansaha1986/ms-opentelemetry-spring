@@ -58,8 +58,8 @@ public class CreateStudentRequest {
 		return mentorId;
 	}
 
-	public void setMentorId(long addressId) {
-		this.mentorId = addressId;
+	public void setMentorId(long mentorId) {
+		this.mentorId = mentorId;
 	}
 
 }

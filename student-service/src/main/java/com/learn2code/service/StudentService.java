@@ -44,8 +44,8 @@ public class StudentService {
 		StudentResponse studentResponse = new StudentResponse(student);
 		
 		studentResponse.setMentorResponse(commonService.getMentorByIdViaGateway(student.getMentorId()));
-		//studentResponse.setMentorResponse(commonService.getAddressById(student.getMentorId()));
-		//studentResponse.setMentorResponse(addressFeignClient.getById(student.getMentorId()));
+		//studentResponse.setMentorResponse(commonService.getMentorById(student.getMentorId()));
+		//studentResponse.setMentorResponse(mentorFeignClient.getById(student.getMentorId()));
 		
 		return new StudentResponse(student);
 	}
@@ -57,8 +57,8 @@ public class StudentService {
 		StudentResponse studentResponse = new StudentResponse(student);
 		
 		studentResponse.setMentorResponse(commonService.getMentorByIdViaGateway(student.getMentorId()));
-		//studentResponse.setMentorResponse(commonService.getAddressById(student.getMentorId()));
-		//studentResponse.setMentorResponse(addressFeignClient.getById(student.getMentorId()));
+		//studentResponse.setMentorResponse(commonService.getMentorById(student.getMentorId()));
+		//studentResponse.setMentorResponse(mentorFeignClient.getById(student.getMentorId()));
 		
 		return studentResponse;
 	}
@@ -83,7 +83,7 @@ public class StudentService {
 	}
 	
 	//name will be same that you provided in application.properties file
-	@CircuitBreaker(name="addressService", fallbackMethod= "fallbackGetAddressById")
+	@CircuitBreaker(name="mentorService", fallbackMethod= "fallbackGetMentorById")
 	public MentorResponse getMentorById (long mentorId) {
 		Mono<MentorResponse> mentorResponse = 
 				webClient.get().uri("/getById/" + mentorId)
@@ -95,7 +95,7 @@ public class StudentService {
 		return mentorResponse;*/
 	}
 	
-	public MentorResponse fallbackGetAddressById (long addressId, Throwable th) {
+	public MentorResponse fallbackGetMentorById (long mentorId, Throwable th) {
 		return new MentorResponse();
 	}
 }

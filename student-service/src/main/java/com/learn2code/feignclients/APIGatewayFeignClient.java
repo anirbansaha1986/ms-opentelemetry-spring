@@ -9,6 +9,6 @@ import com.learn2code.response.MentorResponse;
 @FeignClient(value = "api-gateway")
 public interface APIGatewayFeignClient {
 
-	@GetMapping("/address-service/api/address/getById/{id}")
+	@GetMapping("/mentor-service/api/mentor/getById/{id}")
 	public MentorResponse getById(@PathVariable long id);
 }

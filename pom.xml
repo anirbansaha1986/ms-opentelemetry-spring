@@ -15,8 +15,8 @@
 	</parent>
 
     <modules>
-        <module>address-service</module>
-        <module>spring-cloud-open-telemetry2</module>
+        <module>mentor-service</module>
+        <module>student-service</module>
     </modules>
 
 </project>
