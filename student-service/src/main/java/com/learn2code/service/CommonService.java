@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.learn2code.feignclients.APIGatewayFeignClient;
-import com.learn2code.feignclients.AddressFeignClient;
-import com.learn2code.response.AddressResponse;
+import com.learn2code.feignclients.MentorFeignClient;
+import com.learn2code.response.MentorResponse;
 
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 
@@ -18,30 +18,30 @@ public class CommonService {
 	long count = 1;
 	
 	@Autowired
-	AddressFeignClient addressFeignClient;
+	MentorFeignClient mentorFeignClient;
 	
 	@Autowired
 	APIGatewayFeignClient apiGatewayFeignClient;
 
 	//name will be same that you provided in application.properties file
-		@CircuitBreaker(name="addressService", fallbackMethod= "fallbackGetAddressById")
-		public AddressResponse getAddressById (long addressId) {
+		@CircuitBreaker(name="mentorService", fallbackMethod= "fallbackGetAddressById")
+		public MentorResponse getMentorById (long mentorId) {
 			logger.info("count = " + count);
 			count++;
-			AddressResponse addressResponse = addressFeignClient.getById(addressId);
-			return addressResponse;
+			MentorResponse mentorResponse = mentorFeignClient.getById(mentorId);
+			return mentorResponse;
 		}
 		
-		public AddressResponse fallbackGetAddressById (long addressId, Throwable th) {
+		public MentorResponse fallbackGetAddressById (long addressId, Throwable th) {
 			logger.error("Error = " + th);
-			return new AddressResponse();
+			return new MentorResponse();
 		}
 		
-		@CircuitBreaker(name="addressService", fallbackMethod= "fallbackGetAddressById")
-		public AddressResponse getAddressByIdViaGateway (long addressId) {
+		@CircuitBreaker(name="mentorService", fallbackMethod= "fallbackGetAddressById")
+		public MentorResponse getMentorByIdViaGateway (long mentorId) {
 			logger.info("count = " + count);
 			count++;
-			AddressResponse addressResponse = apiGatewayFeignClient.getById(addressId);
-			return addressResponse;
+			MentorResponse mentorResponse = apiGatewayFeignClient.getById(mentorId);
+			return mentorResponse;
 		}
 }

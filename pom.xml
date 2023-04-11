@@ -15,7 +15,7 @@
 	</parent>
 
     <modules>
-        <module>spring-cloud-open-telemetry1</module>
+        <module>address-service</module>
         <module>spring-cloud-open-telemetry2</module>
     </modules>
 

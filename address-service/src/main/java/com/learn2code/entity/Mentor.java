@@ -5,13 +5,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "student")
-public class Student {
+@Table(name = "address")
+public class Mentor {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,8 +25,7 @@ public class Student {
 	@Column(name = "email")
 	private String email;
 	
-	@Column(name = "mentor_id")
-	private long mentorId;
+	
 
 	public Long getId() {
 		return id;
@@ -62,14 +59,5 @@ public class Student {
 		this.email = email;
 	}
 
-	public long getMentorId() {
-		return mentorId;
-	}
-
-	public void setMentorId(long mentorId) {
-		this.mentorId = mentorId;
-	}
-
-	
 
 }

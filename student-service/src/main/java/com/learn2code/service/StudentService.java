@@ -1,14 +1,19 @@
 package com.learn2code.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import com.learn2code.entity.Student;
-import com.learn2code.feignclients.AddressFeignClient;
+import com.learn2code.feignclients.MentorFeignClient;
 import com.learn2code.repository.StudentRepository;
 import com.learn2code.request.CreateStudentRequest;
 import com.learn2code.response.StudentResponse;
+import com.learn2code.response.MentorResponse;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import reactor.core.publisher.Mono;
 
 
 @Service
@@ -21,7 +26,7 @@ public class StudentService {
 	WebClient webClient;
 	
 	@Autowired
-	AddressFeignClient addressFeignClient;
+	MentorFeignClient mentorFeignClient;
 	
 	@Autowired
 	CommonService commonService;
@@ -32,45 +37,65 @@ public class StudentService {
 		student.setFirstName(createStudentRequest.getFirstName());
 		student.setLastName(createStudentRequest.getLastName());
 		student.setEmail(createStudentRequest.getEmail());
-		student.setAddressId(createStudentRequest.getAddressId());
+		student.setMentorId(createStudentRequest.getMentorId());
 		
 		student = studentRepository.save(student);
 		
 		StudentResponse studentResponse = new StudentResponse(student);
 		
-		studentResponse.setAddressResponse(commonService.getAddressByIdViaGateway(student.getAddressId()));
-		//studentResponse.setAddressResponse(commonService.getAddressById(student.getAddressId()));
-		//studentResponse.setAddressResponse(addressFeignClient.getById(student.getAddressId()));
+		studentResponse.setMentorResponse(commonService.getMentorByIdViaGateway(student.getMentorId()));
+		//studentResponse.setMentorResponse(commonService.getAddressById(student.getMentorId()));
+		//studentResponse.setMentorResponse(addressFeignClient.getById(student.getMentorId()));
 		
 		return new StudentResponse(student);
 	}
+	
 	
 	public StudentResponse getById (long id) {
 		
 		Student student = studentRepository.findById(id).get();
 		StudentResponse studentResponse = new StudentResponse(student);
 		
-		studentResponse.setAddressResponse(commonService.getAddressByIdViaGateway(student.getAddressId()));
-		//studentResponse.setAddressResponse(commonService.getAddressById(student.getAddressId()));
-		//studentResponse.setAddressResponse(addressFeignClient.getById(student.getAddressId()));
+		studentResponse.setMentorResponse(commonService.getMentorByIdViaGateway(student.getMentorId()));
+		//studentResponse.setMentorResponse(commonService.getAddressById(student.getMentorId()));
+		//studentResponse.setMentorResponse(addressFeignClient.getById(student.getMentorId()));
 		
 		return studentResponse;
 	}
-	
-	/*//name will be same that you provided in application.properties file
-	@CircuitBreaker(name="addressService", fallbackMethod= "fallbackGetAddressById")
-	public AddressResponse getAddressById (long addressId) {
-		/*Mono<AddressResponse> addressResponse = 
-				webClient.get().uri("/getById/" + addressId)
-		.retrieve().bodyToMono(AddressResponse.class);
-		
-		return addressResponse.block();
-		
-		AddressResponse addressResponse = addressFeignClient.getById(addressId);
-		return addressResponse;
+
+
+	public List<Student> getStudents() {
+		// TODO Auto-generated method stub
+		return (List<Student>) studentRepository.findAll();
+	}
+
+
+	public void deleteStudent(long id) {
+		// TODO Auto-generated method stub
+		Student student = studentRepository.findById(id).get();
+		studentRepository.delete(student);
+	}
+
+
+	public StudentResponse updateStudent(CreateStudentRequest createStudentRequest) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
-	public AddressResponse fallbackGetAddressById (long addressId, Throwable th) {
-		return new AddressResponse();
-	}*/
+	//name will be same that you provided in application.properties file
+	@CircuitBreaker(name="addressService", fallbackMethod= "fallbackGetAddressById")
+	public MentorResponse getMentorById (long mentorId) {
+		Mono<MentorResponse> mentorResponse = 
+				webClient.get().uri("/getById/" + mentorId)
+		.retrieve().bodyToMono(MentorResponse.class);
+		
+		return mentorResponse.block();
+		
+		/*MentorResponse mentorResponse = mentorFeignClient.getById(mentorId);
+		return mentorResponse;*/
+	}
+	
+	public MentorResponse fallbackGetAddressById (long addressId, Throwable th) {
+		return new MentorResponse();
+	}
 }

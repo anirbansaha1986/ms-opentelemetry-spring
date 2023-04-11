@@ -1,0 +1,134 @@
+<div class="container">
+  <div class="card mt-5" style="align-items: center;">
+    <h1>New Joiner Dashboard</h1>
+  </div>
+  <div class="d-flex flex-row-reverse mt-4">
+    <button type="button" class="btn btn-primary btn-lg me-5" data-bs-toggle="modal" data-bs-target="#exampleModal"  (click)="showModalUpdate('create')">Create Student</button>
+  </div>
+  <div class="mt-5">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Email</th>
+          <th>Street</th>
+          <th>City</th>
+          <th>Edit</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      <tbody class="tbody">
+        <tr *ngFor="let student of studentDetails">
+          <td>{{student.firstName}}</td>
+          <td>{{student.lastName}}</td>
+          <td>{{student.email}}</td>
+          <td>{{student.city}}</td>
+          <td><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="showModalUpdate
+            (student)">Create</button></td>
+          <td><button type="button" class="btn btn-danger" (click)="deleteStudent(student)">Delete</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="modal fade" id="studentModal" tabindex="-1" aria-labelledby="studentModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-center w-100" id="studentModalLabel">{{modalTitle}}</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal">
+            
+          </button>
+        </div>
+        <div class="modal-body">
+          <form #updateForm="ngForm" (ngSubmit)="createOrUpdateStudent()">
+            <div class="form-group">
+              <label for="firstName">First Name :</label>
+              <input type="text" #fname [(ngModel)]="studentDetailsUpdate.firstName" name="firstName"
+                id="firstName" class="form-control" placeholder="Student First Name">
+            </div>
+            <div class="form-group">
+              <label for="lastName">Last Name :</label>
+              <input type="text" #lname [(ngModel)]="studentDetailsUpdate.lastName" name="lastName" id="lastName" class="form-control"
+                placeholder="Student Last Name">
+            </div>
+            <div class="form-group">
+              <label for="email">Email :</label>
+              <input type="text" #address [(ngModel)]="studentDetailsUpdate.email" name="email" id="email"
+                class="form-control" placeholder="Student Email">
+            </div>
+            <div class="form-group">
+              <label for="city">City :</label>
+              <input type="text" #percentage [(ngModel)]="studentDetailsUpdate.city" name="city"
+                id="city" class="form-control" placeholder="Student City">
+            </div>
+            <div class="form-group">
+              <label for="city">City :</label>
+              <input type="text" #percentage [(ngModel)]="studentDetailsUpdate.city" name="city"
+                id="city" class="form-control" placeholder="Student City">
+            </div>
+            <div class="form-group">
+              <input type="submit" value="Update" class="btn btn-primary w-100">
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="mt-5">
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Email</th>
+          <th>Street</th>
+          <th>City</th>
+          <th>Edit</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      <tbody class="tbody">
+        <tr *ngFor="let student of studentDetails">
+          <td>{{student.firstName}}</td>
+          <td>{{student.lastName}}</td>
+          <td>{{student.email}}</td>
+          <td>{{student.city}}</td>
+          <td><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="showModalUpdate
+            (student)">Create</button></td>
+          <td><button type="button" class="btn btn-danger" (click)="deleteStudent(student)">Delete</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="modal fade" id="mentorModal" tabindex="-1" aria-labelledby="mentorModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-center w-100" id="mentorModalLabel">Create Mentor Information</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal">
+          </button>
+        </div>
+        <div class="modal-body">
+          <form #updateForm="ngForm" (ngSubmit)="createOrUpdateMentor()">
+            <div class="form-group">
+              <label for="street">Street:</label>
+              <input type="text" #street (ngModel)="street" name="street"
+                id="street" class="form-control" placeholder="Streat">
+            </div>
+            <div class="form-group">
+              <label for="city">City:</label>
+              <input type="text" #city (ngModel)="city" name="city" id="city" class="form-control"
+                placeholder="City">
+            </div>
+            <div class="form-group">
+              <input type="submit" value="Register" class="btn btn-primary w-100">
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
