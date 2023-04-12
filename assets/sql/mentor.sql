@@ -16,28 +16,29 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `address`
+-- Table structure for table `mentor`
 --
 
-DROP TABLE IF EXISTS `address`;
+DROP TABLE IF EXISTS `mentor`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `address` (
+CREATE TABLE `mentor` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `street` varchar(100) NOT NULL,
-  `city` varchar(45) NOT NULL,
+  `first_name` varchar(50) NOT NULL,
+  `last_name` varchar(50) DEFAULT NULL,
+  `email` varchar(30) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `address`
+-- Dumping data for table `mentor`
 --
 
-LOCK TABLES `address` WRITE;
-/*!40000 ALTER TABLE `address` DISABLE KEYS */;
-INSERT INTO `address` VALUES (1,'Happy Street','Delhi'),(2,'Down the town Street','NY');
-/*!40000 ALTER TABLE `address` ENABLE KEYS */;
+LOCK TABLES `mentor` WRITE;
+/*!40000 ALTER TABLE `mentor` DISABLE KEYS */;
+INSERT INTO `mentor` VALUES (1,'Abhijit','Das', 'abhijit.das@btag.com'),(2,'Arijit','Kar','arijit.kar@btag.com');
+/*!40000 ALTER TABLE `mentor` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

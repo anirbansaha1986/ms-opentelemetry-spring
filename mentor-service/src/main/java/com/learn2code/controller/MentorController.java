@@ -29,9 +29,6 @@ public class MentorController {
 	@Autowired
 	MentorService mentorService;
 	
-	@Value("${mentor.test}")
-	private String test;
-	
 	@PostMapping("/registerMentor")
 	public MentorResponse registerMentor (@RequestBody CreateMentorRequest createMentorRequest) {
 		return mentorService.createMentor(createMentorRequest);
@@ -50,8 +47,4 @@ public class MentorController {
 		return mentorService.getById(id);
 	}
 	
-	@GetMapping("/test")
-	public String test() {
-		return test;
-	}
 }

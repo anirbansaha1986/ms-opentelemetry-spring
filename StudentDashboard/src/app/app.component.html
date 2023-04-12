@@ -78,8 +78,7 @@
           <th>First Name</th>
           <th>Last Name</th>
           <th>Email</th>
-          <th>Street</th>
-          <th>City</th>
+          <th>Mentor</th>
           <th>Edit</th>
           <th>Delete</th>
         </tr>
@@ -89,7 +88,7 @@
           <td>{{student.firstName}}</td>
           <td>{{student.lastName}}</td>
           <td>{{student.email}}</td>
-          <td>{{student.city}}</td>
+          <td>{{student.mentorId}}</td>
           <td><button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="showModalUpdate
             (student)">Create</button></td>
           <td><button type="button" class="btn btn-danger" (click)="deleteStudent(student)">Delete</button></td>

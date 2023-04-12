@@ -16,9 +16,7 @@ export class AppComponent {
     firstName: "",
     lastName: "",
     email:"",
-    street: "",
-    city: "",
-    addressId: ""
+    mentorID: "",
   }
 
   constructor(private studentService: StudentService) { 
