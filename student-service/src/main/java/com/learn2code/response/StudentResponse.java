@@ -12,7 +12,9 @@ public class StudentResponse {
 
 	private String email;
 	
-	private MentorResponse mentorResponse;
+	private long mentorId;
+	
+	private String mentorName;
 
 	public StudentResponse(Student student) {
 		this.id = student.getId();
@@ -53,12 +55,20 @@ public class StudentResponse {
 		this.email = email;
 	}
 
-	public MentorResponse getMentorResponse() {
-		return mentorResponse;
+	public long getMentorId() {
+		return mentorId;
 	}
 
-	public void setMentorResponse(MentorResponse mentorResponse) {
-		this.mentorResponse = mentorResponse;
+	public void setMentorId(long id) {
+		this.mentorId = id;
+	}
+
+	public String getMentorName() {
+		return mentorName;
+	}
+
+	public void setMentorName(String mentorName) {
+		this.mentorName = mentorName;
 	}
 
 	

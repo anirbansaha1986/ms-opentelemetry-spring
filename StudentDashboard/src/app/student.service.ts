@@ -8,22 +8,17 @@ export class StudentService {
 
   constructor(private http: HttpClient) { }
 
-  API = 'http://localhost:9090';
-  addressAPI = 'http://localhost:9091';
+  API = 'http://localhost:9090/api/student';
 
   public registerStudent(studentData: any) {
     return this.http.post(this.API + '/registerStudent', studentData);
-  }
-
-  public getAddresses() {
-    return this.http.get(this.addressAPI + '/')
   }
 
   public getStudents() {
     return this.http.get(this.API + '/getStudents');
   }
 
-  public getStudent(id: any) {
+  public getStudentById(id: any) {
     return this.http.get(this.API + '/getById?id=' + id);
   }
 
@@ -31,7 +26,7 @@ export class StudentService {
     return this.http.delete(this.API + '/deleteStudent?id=' + id);
   }
 
-  public updateStudents(student: any) {
+  public updateStudent(student: any) {
     return this.http.put(this.API + '/updateStudent', student);
   }
 

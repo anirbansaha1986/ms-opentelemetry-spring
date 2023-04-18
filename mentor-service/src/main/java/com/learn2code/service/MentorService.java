@@ -54,5 +54,22 @@ public class MentorService {
 		LOGGER.info("Get lists of Mentors");
 		return (List<Mentor>)mentorRepository.findAll();
 	}
+
+	public MentorResponse updateMentor(Mentor mentor) {
+		
+		Mentor mentorOld = mentorRepository.findById(mentor.getId()).get();
+		mentorOld.setFirstName(mentor.getFirstName());
+		mentorOld.setLastName(mentor.getLastName());
+		mentorOld.setEmail(mentor.getEmail());
+		mentorOld.setId(mentor.getId());
+		
+		mentor = mentorRepository.save(mentorOld);
+		
+		LOGGER.info("Update Mentor for id {}", mentor.getId());
+		
+		MentorResponse mentorResponse = new MentorResponse(mentor);
+		
+		return mentorResponse;
+	}
 	
 }

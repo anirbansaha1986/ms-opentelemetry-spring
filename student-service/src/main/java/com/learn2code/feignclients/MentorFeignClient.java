@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import com.learn2code.response.MentorResponse;
 
 //Either you can provide complete URL or you can add base url and append path value
-@FeignClient(value = "mentor-service", path="/api/mentor")
+@FeignClient(url = "${mentor.service.URI}", value = "mentor-service", path="/api/mentor")
 public interface MentorFeignClient {
 
 	@GetMapping("/getById/{id}")

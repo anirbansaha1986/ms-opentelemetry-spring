@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { StudentService } from './student.service';
+import { MentorService } from './mentor.service';
 
 @Component({
   selector: 'app-root',
@@ -9,18 +10,32 @@ import { StudentService } from './student.service';
 })
 export class AppComponent {
 
-  modalTitle = 'Register Student Information';
-  cities = []
+
+  studentModalTitle = 'Register Student Information';
+  mentorModalTitle = 'Register Mentor Information'; 
   studentDetails = null as any;
+  mentorDetails = null as any;
+  formSubmitTitle = 'Register'
   studentDetailsUpdate = {
+    id: "",
     firstName: "",
     lastName: "",
     email:"",
-    mentorID: "",
+    mentorId: "",
+    mentorName: ""
   }
 
-  constructor(private studentService: StudentService) { 
+  mentorDetailsUpdate = {
+    id: "",
+    firstName: "",
+    lastName: "",
+    email:"",
+
+  }
+
+  constructor(private studentService: StudentService, private mentorService: MentorService) { 
     this.getStudentsDetails();
+    this.getMentorDetails();
   }
   
   register(params: NgForm) {
@@ -32,11 +47,6 @@ export class AppComponent {
         console.log(err);
       }
     );
-
-    this.studentService.registerStudent(params.value).subscribe({
-      next: (Response) => console.log(Response),
-      error: (err) => console.log(err)
-    });
   }
 
   getStudentsDetails() {
@@ -51,8 +61,28 @@ export class AppComponent {
     );
   }
 
+  getMentorDetails(){
+    this.mentorService.getMentors().subscribe(
+      (resp) => {
+        console.log(resp);
+        this.mentorDetails = resp;
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
+  }
+
   createOrUpdateStudent() {
-    throw new Error('Method not implemented.');
+    this.studentService.registerStudent(this.studentDetailsUpdate).subscribe(
+      (resp) => {
+        console.log(resp);
+        this.mentorDetails = resp;
+      },
+      (err) => {
+        console.log(err);
+      }
+    )
   }
   deleteStudent(_t46: any) {
     throw new Error('Method not implemented.');
@@ -60,14 +90,43 @@ export class AppComponent {
   showModalUpdate(event: any) {
     console.log(event);
     if (event == 'create'){
-      this.modalTitle = 'Register Student Information';
+      this.studentModalTitle = 'Register Student Information';
+      this. studentDetailsUpdate = {
+        id: "",
+        firstName: "",
+        lastName: "",
+        email:"",
+        mentorId: "",
+        mentorName: ""
+      };
+      this.formSubmitTitle = 'Register'
     }
     else {
-      this.modalTitle = 'Update Student Information';
-      this.  studentDetailsUpdate = event;
+      this.studentModalTitle = 'Update Student Information';
+      this.studentDetailsUpdate = Object.assign({}, event);
+      this.formSubmitTitle = 'Update'
+    }
+  }
+  showModalMentorUpdate(event: any) {
+    console.log(event);
+    if (event == 'create'){
+      this.mentorModalTitle = 'Register Mentor Information';
+      this.mentorDetailsUpdate = this.mentorDetails;
+      this.formSubmitTitle = 'Register'
+    }
+    else {
+      this.mentorModalTitle = 'Update Mentor Information';
+      this.mentorDetailsUpdate = Object.assign({}, event);
+      this.formSubmitTitle = 'Update'
     }
   }
   createOrUpdateMentor() {
     throw new Error('Method not implemented.');
   }
+  onChange(event: any) {
+    this.studentDetailsUpdate.mentorName = event.firstName + " " + event.lastName
+    this.studentDetailsUpdate.mentorId = event.mentorId
+  }
 }
+
+

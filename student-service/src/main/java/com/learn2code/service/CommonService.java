@@ -41,7 +41,7 @@ public class CommonService {
 		public MentorResponse getMentorByIdViaGateway (long mentorId) {
 			logger.info("count = " + count);
 			count++;
-			MentorResponse mentorResponse = apiGatewayFeignClient.getById(mentorId);
+			MentorResponse mentorResponse = mentorFeignClient.getById(mentorId);
 			return mentorResponse;
 		}
 }

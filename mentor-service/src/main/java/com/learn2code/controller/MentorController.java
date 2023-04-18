@@ -5,11 +5,12 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,6 +21,7 @@ import com.learn2code.service.MentorService;
 import com.learn2code.entity.Mentor;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/api/mentor")
 @RefreshScope
 public class MentorController {
@@ -34,7 +36,7 @@ public class MentorController {
 		return mentorService.createMentor(createMentorRequest);
 	}
 	
-	@GetMapping
+	@GetMapping("getMentors")
 	public List<Mentor> getMentors() {
 		LOGGER.info("Getting Student Mentor Details");
 		return mentorService.getMentors();
@@ -46,5 +48,12 @@ public class MentorController {
 		LOGGER.info("Getting Mentor details with id {}", id);
 		return mentorService.getById(id);
 	}
+	
+	@PutMapping("/updateMentor")
+	public MentorResponse updateStudent(@RequestBody Mentor mentor) {
+		LOGGER.info("Update Mentor Details with id {}",mentor.getId());
+		return  mentorService.updateMentor(mentor);
+	}
+	
 	
 }
