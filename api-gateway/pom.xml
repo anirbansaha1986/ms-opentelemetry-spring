@@ -15,18 +15,20 @@
 	<name>api-gateway</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
-		<java.version>1.8</java.version>
+		<java.version>11</java.version>
 		<release.train.version>2020.0.4</release.train.version>
 		<spring-cloud-sleuth-otel.version>1.0.0-M12</spring-cloud-sleuth-otel.version>
 		<spring-cloud.version>2021.0.3</spring-cloud.version>
+		<maven.compiler.source>11</maven.compiler.source>
+		<maven.compiler.target>11</maven.compiler.target>
+
 	</properties>
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
 				<groupId>org.springframework.cloud</groupId>
 				<artifactId>spring-cloud-dependencies</artifactId>
-				<!-- Provide the latest stable Spring Cloud release train version (e.g. 
-					2020.0.0) -->
+				<!-- Provide the latest stable Spring Cloud release train version (e.g.2020.0.0) -->
 				<version>${release.train.version}</version>
 				<type>pom</type>
 				<scope>import</scope>

@@ -1,61 +1,73 @@
-version: '4.0'
+version: '1.0.0'
 services:
-  config-server:
-    build: config-server/
-    ports:
-    - 8888:8888
   eureka-server:
-    build: eureka-server/
+    build: 
+      context: eureka-server/
+      dockerfile: Dockerfile
+    image: eureka-server:latest
     ports:
-    - 9000:9000
+      - 8761:8761
+    networks:
+      - spring-cloud-network
+  api-gateway:
+    build: 
+      context: api-gateway/
+      dockerfile: Dockerfile
+    image: api-gateway:latest
+    ports:
+      - "9090:9090"
+    networks:
+      - spring-cloud-network
+    depends_on: 
+      - eureka-server
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka
+  mentor-service:
+    platform: linux/x86_64
+    build: 
+      context: mentor-service/
+      dockerfile: Dockerfile
+    image: mentor-service:latest
+    ports:
+      - 8083:8083
+    networks:
+      - spring-cloud-network
     depends_on:
-    - config-server
+    - eureka-server
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka    
+      SPRING_CLOUD_GATEWAY_URI: http://api-gateway:9090
+  student-service:
+    platform: linux/x86_64
+    build: 
+      context: student-service/
+      dockerfile: Dockerfile
+    image: student-service:latest
+    ports:
+      - 8081:8081
+    depends_on:
+      - eureka-server
+      - api-gateway
+    networks:
+      - spring-cloud-network
+    environment:
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka    
+      SPRING_CLOUD_GATEWAY_URI: http://api-gateway:9090
   jaeger-service:
     image: jaegertracing/all-in-one:latest
     ports:
-    - 16686:16686
-    - '14250'
-  mentor-service:
-    platform: linux/x86_64
-    build: mentor-service/
-    ports:
-    - 8080:8080
-    depends_on:
-    - config-server
-    - eureka-server
-    environment:
-      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:9000/eureka    
-      SPRING_CLOUD_CONFIG_URI: http://config-server:8888
-  student-service:
-    platform: linux/x86_64
-    build: student-service/
-    ports:
-    - '8081'
-    depends_on:
-    - config-server
-    - eureka-server
-    environment:
-      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:9000/eureka    
-      SPRING_CLOUD_CONFIG_URI: http://config-server:8888
-  api-cloud-gateway:
-    build: api-gateway/
-    ports:
-      - "8085:8085"
-    depends_on: 
-      - config-server
-      - eureka-server
-      - mentor-service
-      - student-service
-    environment:
-      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:9000/eureka
-      SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+      - 16686:16686
+      - '14250'
   collector:
     image: otel/opentelemetry-collector:0.72.0
     command:
-    - --config=/etc/otel-collector-config.yml
+      - --config=/etc/otel-collector-config.yml
     volumes:
-    - ./otel-config.yml:/etc/otel-collector-config.yml
+      - ./otel-config.yml:/etc/otel-collector-config.yml
     ports:
-    - 4317:4317
+      - 4317:4317
     depends_on:
-    - jaeger-service
+      - jaeger-service
+networks:
+  spring-cloud-network:
+      driver: bridge
