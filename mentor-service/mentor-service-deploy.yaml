@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mentor-service
+spec:
+  selector:
+    matchLabels:
+      app: mentor-service
+  template:
+    metadata:
+      labels:
+        app: mentor-service
+    spec:
+      containers:
+      - name: mentor-service
+        image: mentor-service:latest
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 8081

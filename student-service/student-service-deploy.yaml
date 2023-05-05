@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: student-service
+spec:
+  selector:
+    matchLabels:
+      app: student-service
+  template:
+    metadata:
+      labels:
+        app: student-service
+    spec:
+      containers:
+      - name: student-service
+        image: student-service:latest
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 8081
