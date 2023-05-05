@@ -58,14 +58,20 @@ services:
     ports:
       - 16686:16686
       - '14250'
-  collector:
+  otel-collector:
     image: otel/opentelemetry-collector:0.72.0
     command:
       - --config=/etc/otel-collector-config.yml
     volumes:
       - ./otel-config.yml:/etc/otel-collector-config.yml
     ports:
-      - 4317:4317
+      - 1888:1888 # pprof extension
+      - 8888:8888 # Prometheus metrics exposed by the collector
+      - 8889:8889 # Prometheus exporter metrics
+      - 13133:13133 # health_check extension
+      - 4317:4317 # OTLP gRPC receiver
+      - 4318:4318 # OTLP http receiver
+      - 55679:55679 # zpages extension
     depends_on:
       - jaeger-service
 networks:

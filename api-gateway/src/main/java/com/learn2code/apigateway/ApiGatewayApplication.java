@@ -4,6 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.boot.Banner;
 
 @SpringBootApplication
 @CrossOrigin()
@@ -11,7 +12,10 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 public class ApiGatewayApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ApiGatewayApplication.class, args);
+		SpringApplication app = new SpringApplication(ApiGatewayApplication.class);
+	    app.setBannerMode(Banner.Mode.OFF);
+	    app.run(args);
+		
 	}
 
 }
