@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.web.server.ServerWebExchange;
+import io.opentelemetry.extension.annotations.WithSpan;
 
 import reactor.core.publisher.Mono;
 
@@ -17,6 +18,7 @@ public class CustomFilter implements GlobalFilter{
 	Logger logger = LoggerFactory.getLogger(CustomFilter.class);
 
 	@Override
+	@WithSpan
 	public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
 		
 		ServerHttpRequest request = exchange.getRequest();
