@@ -2,18 +2,15 @@ version: '1.0.0'
 services:
   student-dashboard:
     build:
-      context: StudentDashboard/
-      dockerfile: Dockerfile
-    command: sh -c "npm start"
-    image: student-dashboard:lastest
+      context: StudentDashboard
+      target: dev-envs
     ports:
       - 4200:4200
-    working_dir: /home/node/app
-    networks:
-      - spring-cloud-network
+    image: student-dashboard:latest
     volumes:
-      - ./:/home/node/app
-      - node_modules:/home/node/app/node_modules
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./StudentDashboard:/project
+      - /project/node_modules
   eureka-server:
     build: 
       context: eureka-server/
@@ -134,7 +131,7 @@ services:
     image: adminer
     restart: always
     ports:
-      - 8080:8080
+      - 8088:8080
     networks:
       - spring-cloud-network
 networks:

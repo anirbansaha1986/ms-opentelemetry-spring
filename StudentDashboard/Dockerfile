@@ -1,8 +1,31 @@
-FROM node:lts
-RUN mkdir /home/node/app && chown node:node /home/node/app
-RUN mkdir /home/node/app/node_modules && chown node:node /home/node/app/node_modules
-WORKDIR  /home/node/app
-USER node
-COPY --chown=node:node package.json package-lock.json ./
-RUN npm ci --quiet
-COPY --chown=node:node . .
+# syntax=docker/dockerfile:1.4
+
+FROM --platform=$BUILDPLATFORM node:lts AS builder
+
+RUN mkdir /project
+WORKDIR /project
+
+RUN npm install -g @angular/cli@15
+
+COPY package.json package-lock.json ./
+RUN npm ci
+
+COPY . .
+CMD ["ng", "serve", "--host", "0.0.0.0"]
+
+FROM builder AS dev-envs
+
+RUN <<EOF
+apt-get update
+apt-get install -y --no-install-recommends git
+EOF
+
+RUN <<EOF
+useradd -s /bin/bash -m vscode
+groupadd docker
+usermod -aG docker vscode
+EOF
+# install Docker tools (cli, buildx, compose)
+COPY --from=gloursdocker/docker / /
+
+CMD ["ng", "serve", "--host", "0.0.0.0"]
