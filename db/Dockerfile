@@ -1,0 +1,12 @@
+FROM mysql:5.7.15
+
+ARG MYSQL_DATABASE
+ARG MYSQL_ROOT_PASSWORD
+
+RUN echo ${MYSQL_DATABASE}
+RUN echo ${MYSQL_ROOT_PASSWORD}
+
+ENV MYSQL_DATABASE=university
+ENV MYSQL_ROOT_PASSWORD=root
+ADD student-mentor.sql /docker-entrypoint-initdb.d
+EXPOSE 3306

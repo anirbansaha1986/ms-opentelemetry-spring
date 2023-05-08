@@ -40,74 +40,109 @@ services:
     restart: on-failure
     env_file: ./.env
     ports:
-      - 8083:8083
+      - 8085:8083
     networks:
       - spring-cloud-network
     depends_on:
     - eureka-server
+    - api-gateway
+    - mysqldb
     environment:
-      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE = http://eureka-server:8761/eureka    
-      - SPRING_CLOUD_GATEWAY_URI = http://api-gateway:9090
-      - SPRING_DATASOURCE_JDBC-URL=jdbc:mysql://mysqldb:$MYSQLDB_DOCKER_PORT/$MYSQLDB_DATABASE?useSSL=false
-      - SPRING_DATASOURCE_USERNAME=root
-      - SPRING_DATASOURCE_PASSWORD=root
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka    
+      SPRING_CLOUD_GATEWAY_URI: http://api-gateway:9090
+      SPRING_DATASOURCE_JDBC-URL: "jdbc:mysql://mysqldb:$MYSQLDB_DOCKER_PORT/$MYSQLDB_DATABASE?useSSL=false"
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
   student-service:
     platform: linux/x86_64
     build: 
       context: student-service/
       dockerfile: Dockerfile
     image: student-service:latest
+    restart: on-failure
+    env_file: ./.env
     ports:
       - 8081:8081
     depends_on:
       - eureka-server
       - api-gateway
+      - mysqldb
     networks:
       - spring-cloud-network
     environment:
-      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE= http://eureka-server:8761/eureka    
-      - SPRING_CLOUD_GATEWAY_URI= http://api-gateway:9090
-      - SPRING_DATASOURCE_JDBC-URL=jdbc:mysql://mysqldb:$MYSQLDB_DOCKER_PORT/$MYSQLDB_DATABASE?useSSL=false
-      - SPRING_DATASOURCE_USERNAME=root
-      - SPRING_DATASOURCE_PASSWORD=root
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eureka-server:8761/eureka    
+      SPRING_CLOUD_GATEWAY_URI: http://api-gateway:9090
+      SPRING_DATASOURCE_JDBC-URL: "jdbc:mysql://mysqldb:$MYSQLDB_DOCKER_PORT/$MYSQLDB_DATABASE?useSSL=false"
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
   jaeger-service:
     image: jaegertracing/all-in-one:latest
     ports:
-      - 16686:16686
-      - '14250'
-      - '14268'
+      - "16686:16686"
+      - "14250"
+      - "14268"
+    networks:
+      - spring-cloud-network
   otel-collector:
     image: otel/opentelemetry-collector:0.72.0
-    command:
-      - --config=/etc/otel-collector-config.yml
+    command: ["--config=/etc/otel-collector-config.yml" ]
     volumes:
       - ./otel-config.yml:/etc/otel-collector-config.yml
     ports:
-      - 1888:1888 # pprof extension
-      - 8888:8888 # Prometheus metrics exposed by the collector
-      - 8889:8889 # Prometheus exporter metrics
-      - 13133:13133 # health_check extension
-      - 4317:4317 # OTLP gRPC receiver
-      - 4318:4318 # OTLP http receiver
-      - 55679:55679 # zpages extension
+      - "1888:1888" # pprof extension
+      - "13133:13133" # health_check extension
+      - "4317" # OTLP gRPC receiver
+      - "4318" # OTLP http receiver
+      - "55670:55679" # zpages extension
+    networks:
+      - spring-cloud-network
     depends_on:
       - jaeger-service
+  #mysqldb:
+    #container_name: mysqldb
+    #build:
+      #context: db/
+      #dockerfile: Dockerfile
+      #args:
+        #- MYSQL_DATABASE=$MYSQLDB_DATABASE
+        #- MYSQL_ROOT_PASSWORD=$MYSQLDB_ROOT_PASSWORD  
+    #volumes:
+      #- mysqldb:/var/lib/mysql
+    #image: mysqldb:latest
+    #restart: unless-stopped
+    #env_file: ./.env
+   # environment:
+   #   MYSQL_ROOT_PASSWORD: $MYSQLDB_ROOT_PASSWORD
+   #   MYSQL_DATABASE: $MYSQLDB_DATABASE
+    #ports:
+      #- $MYSQLDB_LOCAL_PORT:$MYSQLDB_DOCKER_PORT
   mysqldb:
     container_name: mysqldb
-    volumes:
-      - mysqldb:/var/lib/mysql
     image: mysql:5.7
-    restart: unless-stopped
-    env_file: ./.env
-    environment:
-      - MYSQL_ROOT_PASSWORD=$MYSQLDB_ROOT_PASSWORD
-      - MYSQL_DATABASE=$MYSQLDB_DATABASE
+    # NOTE: use of "mysql_native_password" is not recommended: https://dev.mysql.com/doc/refman/8.0/en/upgrading-from-previous-series.html#upgrade-caching-sha2-password
+    # (this is just an example, not intended to be a production configuration)
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
     ports:
-      - $MYSQLDB_LOCAL_PORT:$MYSQLDB_DOCKER_PORT
+      - 3307:3306
+    networks:
+      - spring-cloud-network
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: university
+    volumes:
+      - "./db/student-mentor.sql:/docker-entrypoint-initdb.d/1.sql"
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+    networks:
+      - spring-cloud-network
 networks:
   spring-cloud-network:
       driver: bridge
 volumes:
-  mysqldb:
+  mysqldb: {}
