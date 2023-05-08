@@ -13,4 +13,8 @@ FROM openjdk:11
 
 COPY --from=build /home/app/target/mentor-service-0.0.1-SNAPSHOT.jar mentor-service.jar
 
+ADD https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/latest/download/opentelemetry-javaagent.jar .
+
+ENV JAVA_TOOL_OPTIONS "-javaagent:./opentelemetry-javaagent.jar"
+
 ENTRYPOINT ["java","-jar","/mentor-service.jar"]
