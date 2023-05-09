@@ -21,7 +21,8 @@ pipeline {
                 sh 'docker context create remote --docker "host=ssh://user@remotemachine"'
                 sh 'docker context ls'
                 sh 'docker --context remote ps'
-                sh 'docker compose up -d --no-color --wait'
+                sh 'docker context use remote'
+                sh 'docker compose -‐context remote up -d --no-color --wait'
                 sh 'docker compose ps'
             }
         }
