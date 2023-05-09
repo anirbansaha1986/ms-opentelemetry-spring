@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -96,12 +97,15 @@ public class StudentService {
 	}
 
 
-	public void deleteStudent(long id) {
+	public ResponseEntity<Void> deleteStudent(long id) {
 		
 		Student student = studentRepository.findById(id).get();
 		studentRepository.delete(student);
 		
 		LOGGER.info("Student details deleted");
+		
+		return ResponseEntity.noContent().build();
+	
 	}
 
 

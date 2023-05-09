@@ -45,8 +45,9 @@ services:
       SPRING_CLOUD_GATEWAY_ROUTES[1]_PREDICATES[0]_NAME: Path
       SPRING_CLOUD_GATEWAY_ROUTES[1]_PREDICATES[0]_ARG[PATTERN]: /api/mentor/**
       OTEL_SERVICE_NAME: api-gateway
-      OTEL_MATRICS_EXPORTER: none
+      OTEL_METRICS_EXPORTER: none
       OTEL_TRACES_EXORTER: jaeger
+      OTEL_EXPORTER_OTLP_TRACES_PROTOCOL: grpc
       OTEL_EXPORTER_JAEGER_ENDPOINT: http://jaeger:14250
 
   mentor-service:
@@ -72,8 +73,9 @@ services:
       SPRING_DATASOURCE_PASSWORD: root
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
       OTEL_SERVICE_NAME: mentor-service
-      OTEL_MATRICS_EXPORTER: none
+      OTEL_METRICS_EXPORTER: none
       OTEL_TRACES_EXORTER: jaeger
+      OTEL_EXPORTER_OTLP_TRACES_PROTOCOL: grpc
       OTEL_EXPORTER_JAEGER_ENDPOINT: http://jaeger:14250
   student-service:
     platform: linux/x86_64
@@ -98,13 +100,14 @@ services:
       SPRING_DATASOURCE_PASSWORD: root
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
       OTEL_SERVICE_NAME: student-service
-      OTEL_MATRICS_EXPORTER: none
+      OTEL_METRICS_EXPORTER: none
       OTEL_TRACES_EXORTER: jaeger
+      OTEL_EXPORTER_OTLP_TRACES_PROTOCOL: grpc
       OTEL_EXPORTER_JAEGER_ENDPOINT: http://jaeger:14250
       MENTOR_SERVICE_URL: http://mentor-service:8083
       MENTOR_SERVICE_URI: http://mentor-service:8083
       SPRING_CLOUD_DISCOVERY_CLIENT_SIMPLE_INSTANCES_MENTOR-SERVICE[0]_URI: http://mentor-service:8083
-  jaeger-service:
+  jaeger:
     image: jaegertracing/all-in-one:latest
     ports:
       - "16686:16686"
@@ -112,7 +115,7 @@ services:
       - "14268"
     networks:
       - spring-cloud-network
-  otel-collector:
+  collector:
     image: otel/opentelemetry-collector:0.72.0
     command: ["--config=/etc/otel-collector-config.yml" ]
     volumes:
@@ -126,7 +129,7 @@ services:
     networks:
       - spring-cloud-network
     depends_on:
-      - jaeger-service
+      - jaeger
   mysqldb:
     container_name: mysqldb
     image: mysql:5.7

@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.openfeign.EnableFeignClients;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,7 +25,6 @@ import com.learn2code.service.StudentService;
 
 @RestController
 @EnableFeignClients("com.learn2code.feignclients")
-@CrossOrigin
 @RequestMapping("/api/student")
 public class StudentController {
 	
@@ -57,10 +57,11 @@ public class StudentController {
 		return studentService.getById(id);
 	}
 	
+	
 	@DeleteMapping("/deleteStudent")
-	public void deleteStudent(@RequestParam Integer id) {
+	public ResponseEntity<Void> deleteStudent(@RequestParam Integer id) {
 		LOGGER.info("Deleting Student with id {}", id);
-		studentService.deleteStudent(id);
+		return studentService.deleteStudent(id);
 	}
 	
 	@PutMapping("/updateStudent")

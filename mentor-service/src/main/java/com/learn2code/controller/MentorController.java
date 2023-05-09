@@ -21,7 +21,6 @@ import com.learn2code.service.MentorService;
 import com.learn2code.entity.Mentor;
 
 @RestController
-@CrossOrigin
 @RequestMapping("/api/mentor")
 @RefreshScope
 public class MentorController {

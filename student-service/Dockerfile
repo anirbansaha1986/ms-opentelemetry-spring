@@ -15,6 +15,6 @@ COPY --from=build /home/app/target/student-service-0.0.1-SNAPSHOT.jar student-se
 
 ADD https://github.com/open-telemetry/opentelemetry-java-instrumentation/releases/latest/download/opentelemetry-javaagent.jar .
 
-ENV JAVA_TOOL_OPTIONS "-javaagent:./opentelemetry-javaagent.jar"
+ENV JAVA_TOOL_OPTIONS "-javaagent:./opentelemetry-javaagent.jar -Dotel.traces.exporter=jaeger -Dotel.exporter.jaeger.endpoint=http://jaeger-service:14250 -Dotel.resource.attributes=service.name=student-service"
 
 ENTRYPOINT ["java","-jar","/student-service.jar"]

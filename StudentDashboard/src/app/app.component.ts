@@ -84,8 +84,17 @@ export class AppComponent {
       }
     )
   }
-  deleteStudent(_t46: any) {
-    throw new Error('Method not implemented.');
+  deleteStudent(student: any) {
+    this.studentService.deleteStudent(student.id).subscribe(
+      (resp) => {
+        console.log(resp);
+        
+      },
+      (err) => {
+        console.log(err);
+      }
+
+    )
   }
   showModalUpdate(event: any) {
     console.log(event);
