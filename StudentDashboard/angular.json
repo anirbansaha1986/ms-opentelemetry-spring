@@ -27,6 +27,7 @@
             "styles": [
               "src/styles.css",
               "src/material-kit.css",
+              "src/fontawesome.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css"
             ],
             "scripts": [

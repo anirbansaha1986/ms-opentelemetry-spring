@@ -54,6 +54,7 @@ public class StudentService {
 		
 		studentResponse.setMentorId(mentorResponse.getMentorId());
 		studentResponse.setMentorName(mentorResponse.getFirstName() + " " + mentorResponse.getLastName());
+		studentResponse.setMentorEmail(mentorResponse.getEmail());
 		
 		return new StudentResponse(student);
 	}
@@ -88,6 +89,7 @@ public class StudentService {
 			
 			studentResponse.setMentorId(mentorResponse.getMentorId());
 			studentResponse.setMentorName(mentorResponse.getFirstName() + " " + mentorResponse.getLastName());
+			studentResponse.setMentorEmail(mentorResponse.getEmail());
 			
 			studentResponses.add(studentResponse);
 			

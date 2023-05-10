@@ -13,6 +13,8 @@ export class AppComponent {
 
   studentModalTitle = 'Register Student Information';
   mentorModalTitle = 'Register Mentor Information'; 
+  studentCount = 0;
+  mentorCount = 0;
   studentDetails = null as any;
   mentorDetails = null as any;
   formSubmitTitle = 'Register'
@@ -22,7 +24,8 @@ export class AppComponent {
     lastName: "",
     email:"",
     mentorId: "",
-    mentorName: ""
+    mentorName: "",
+    mentorEmail: ""
   }
 
   mentorDetailsUpdate = {
@@ -54,6 +57,7 @@ export class AppComponent {
       (resp) => {
         console.log(resp);
         this.studentDetails = resp;
+        this.studentCount = this.studentDetails?.length
       },
       (err) => {
         console.log(err);
@@ -66,6 +70,7 @@ export class AppComponent {
       (resp) => {
         console.log(resp);
         this.mentorDetails = resp;
+        this.mentorCount = this.mentorDetails?.length
       },
       (err) => {
         console.log(err);
@@ -106,7 +111,8 @@ export class AppComponent {
         lastName: "",
         email:"",
         mentorId: "",
-        mentorName: ""
+        mentorName: "",
+        mentorEmail: ""
       };
       this.formSubmitTitle = 'Register'
     }

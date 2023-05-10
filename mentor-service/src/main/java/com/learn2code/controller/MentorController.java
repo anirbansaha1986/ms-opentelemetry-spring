@@ -23,6 +23,7 @@ import com.learn2code.entity.Mentor;
 @RestController
 @RequestMapping("/api/mentor")
 @RefreshScope
+@CrossOrigin
 public class MentorController {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(MentorController.class);

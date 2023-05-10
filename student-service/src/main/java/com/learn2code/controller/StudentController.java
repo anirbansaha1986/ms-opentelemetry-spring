@@ -26,6 +26,7 @@ import com.learn2code.service.StudentService;
 @RestController
 @EnableFeignClients("com.learn2code.feignclients")
 @RequestMapping("/api/student")
+@CrossOrigin
 public class StudentController {
 	
 	@Autowired

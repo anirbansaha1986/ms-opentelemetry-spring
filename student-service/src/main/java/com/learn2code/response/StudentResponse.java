@@ -15,6 +15,8 @@ public class StudentResponse {
 	private long mentorId;
 	
 	private String mentorName;
+	
+	private String mentorEmail;
 
 	public StudentResponse(Student student) {
 		this.id = student.getId();
@@ -69,6 +71,15 @@ public class StudentResponse {
 
 	public void setMentorName(String mentorName) {
 		this.mentorName = mentorName;
+	}
+
+	public void setMentorEmail(String mentorEmail) {
+		this.mentorEmail = mentorEmail;
+		
+	}
+	
+	public String getMentorEmail() {
+		return mentorEmail;
 	}
 
 	
