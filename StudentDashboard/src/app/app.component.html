@@ -125,15 +125,15 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title font-weight-bolder text-primary text-gradient text-center w-100" id="studentModalLabel">{{studentModalTitle}}</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          <button type="button" #closeStudentModal class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
           <div class="row-fluid">
             <form #updateForm="ngForm" name="form" (ngSubmit)="updateForm.form.valid && createOrUpdateStudent()">
-              <div *ngIf="updateForm.submitted && !updateForm.form.valid" class="alert alert-danger"
+              <div *ngIf="(updateForm.submitted && !updateForm.form.valid) || hasError" class="alert alert-danger"
                 style="margin-top: 10px !important;">
-                <div *ngIf="!updateForm.form.valid">
-                  Please provide all Information
+                <div *ngIf="!updateForm.form.valid || hasError" style="text-align: center;">
+                  {{errorMessage}}
                 </div>
               </div>
               <div class="form-group" style="margin-top: 10px !important;">

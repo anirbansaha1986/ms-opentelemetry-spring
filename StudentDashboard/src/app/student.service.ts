@@ -19,33 +19,23 @@ export class StudentService {
   API = 'http://localhost:9090/api/student';
 
   public registerStudent(studentData: any) {
-    return this.http.post(this.API + '/registerStudent', studentData).pipe(
-      catchError(this.handleError('registerStudent', studentData))
-    );
+    return this.http.post(this.API + '/registerStudent', studentData);
   }
 
   public getStudents() {
-    return this.http.get(this.API + '/getStudents').pipe(
-      catchError(this.handleError('getStudents',[]))
-    );
+    return this.http.get(this.API + '/getStudents');
   }
 
   public getStudentById(id: any) {
-    return this.http.get(this.API + '/getById?id=' + id).pipe(
-      catchError(this.handleError('getStudents',[]))
-    );
+    return this.http.get(this.API + '/getById?id=' + id);
   }
 
   public deleteStudent(id: any) {
-    return this.http.delete(this.API + '/deleteStudent?id=' + id).pipe(
-      catchError(this.handleError('deleteStudent',id))
-    );
+    return this.http.delete(this.API + '/deleteStudent?id=' + id);
   }
 
   public updateStudent(student: any) {
-    return this.http.put(this.API + '/updateStudent', student).pipe(
-      catchError(this.handleError('updateStudent',student))
-    );
+    return this.http.put(this.API + '/updateStudent', student);
   }
 
 }
