@@ -33,7 +33,7 @@ pipeline {
         }
     }
     post {
-        alwaus {
+        always {
             sh 'docker compose down --remove-orphan -v'
             sh 'docker compose ps'
         }
