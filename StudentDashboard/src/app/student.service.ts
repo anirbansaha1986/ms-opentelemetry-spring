@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 import { HttpErrorHandler, HandleError } from './http-error-handler.service';
+import { environment } from './../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,7 @@ export class StudentService {
       this.handleError = httpErrorHandler.createHandleError('StudentService');
    }
 
-  API = 'http://localhost:9090/api/student';
+  API = environment.apiUrl + '/api/student';
 
   public registerStudent(studentData: any) {
     return this.http.post(this.API + '/registerStudent', studentData);
