@@ -13,14 +13,16 @@ export class AppComponent {
   @ViewChild('closeStudentModal')
   private closeStudentModal?: ElementRef;
 
-  @ViewChild('mentorModal')
-  private mentorModal?: ElementRef;
+
+
+  @ViewChild('closeStudentModal')
+  private closeMentorModal?: ElementRef;
 
   @ViewChild('updatedForm', { static: false }) 
   updatedForm?: NgForm;
 
-  studentModalTitle = 'Register Student Information';
-  mentorModalTitle = 'Register Mentor Information'; 
+  studentModalTitle = 'Register Customer Information';
+  mentorModalTitle = 'Register Consultant Information'; 
   modalCreateStatus = true
   hasError = false
   errorMessage = 'Please provide all information';
@@ -50,40 +52,6 @@ export class AppComponent {
   constructor(private studentService: StudentService, private mentorService: MentorService) { 
     this.getStudentsDetails();
     this.getMentorDetails();
-  }
-
-  createOrUpdateStudent() {
-    if (this.modalCreateStatus) {
-      this.studentService.registerStudent(this.studentDetailsUpdate).subscribe(
-        (resp) => {
-          console.log(resp);
-          this.mentorDetails = resp;
-          if (this.closeStudentModal)
-          this.closeStudentModal.nativeElement.click(); 
-
-        },
-        (err) => {
-          console.log(err);
-          this.hasError = true
-          this.errorMessage = "Failed to create Student. Please try again";
-        }
-      )
-      }
-    else {
-      this.studentService.updateStudent(this.studentDetailsUpdate).subscribe(
-        (resp) => {
-          console.log(resp);
-          this.mentorDetails = resp;
-
-        },
-        (err) => {
-          console.log("failed to fecth data --- \n",err);
-          this.hasError = true
-          this.errorMessage = "Failed to update Student. Please try again";
-        }
-      )
-    }
-   
   }
 
   getStudentsDetails() {
@@ -117,7 +85,7 @@ export class AppComponent {
     this.hasError = false
     this.errorMessage = 'Please provide all information';
     if (event == 'create'){
-      this.studentModalTitle = 'Register Student Information';
+      this.studentModalTitle = 'Register Customer Information';
       this. studentDetailsUpdate = {
         id: "",
         firstName: "",
@@ -131,7 +99,7 @@ export class AppComponent {
       this.modalCreateStatus = true
     }
     else {
-      this.studentModalTitle = 'Update Student Information';
+      this.studentModalTitle = 'Update Customer Information';
       this.studentDetailsUpdate = Object.assign({}, event);
       this.formSubmitTitle = 'Update'
       this.modalCreateStatus = false
@@ -143,16 +111,55 @@ export class AppComponent {
     this.studentDetailsUpdate.mentorId = event.mentorId
   }
 
+  createOrUpdateStudent() {
+    if (this.modalCreateStatus) {
+      this.studentService.registerStudent(this.studentDetailsUpdate).subscribe(
+        (resp) => {
+          console.log(resp);
+          this.mentorDetails = resp;
+          if (this.closeStudentModal)
+          this.closeStudentModal.nativeElement.click(); 
+
+        },
+        (err) => {
+          console.log(err);
+          this.hasError = true
+          this.errorMessage = "Failed to create Customer. Please try again";
+        }
+      )
+      }
+    else {
+      this.studentService.updateStudent(this.studentDetailsUpdate).subscribe(
+        (resp) => {
+          console.log(resp);
+          this.mentorDetails = resp;
+          if (this.closeStudentModal)
+          this.closeStudentModal.nativeElement.click(); 
+
+        },
+        (err) => {
+          console.log("failed to fecth data --- \n",err);
+          this.hasError = true
+          this.errorMessage = "Failed to update Customer. Please try again";
+        }
+      )
+    }
+   
+  }
+
   createOrUpdateMentor() {
     if (this.modalCreateStatus) {
       this.mentorService.registerMentor(this.mentorDetailsUpdate).subscribe(
         (resp) => {
           console.log(resp);
           this.mentorDetails = resp;
-
+          if (this.closeMentorModal)
+            this.closeMentorModal.nativeElement.click(); 
         },
         (err) => {
           console.log(err);
+          this.hasError = true
+          this.errorMessage = "Failed to create Consultant. Please try again";
         }
       )
       }
@@ -161,15 +168,18 @@ export class AppComponent {
         (resp) => {
           console.log(resp);
           this.mentorDetails = resp;
+          if (this.closeMentorModal)
+            this.closeMentorModal.nativeElement.click(); 
 
         },
         (err) => {
           console.log(err);
+          this.hasError = true
+          this.errorMessage = "Failed to update Consultant. Please try again";
         }
       )
     }
-    if (this.mentorModal)
-      this.mentorModal.nativeElement.click(); 
+
   }
 
   getMentorDetails(){
@@ -190,13 +200,13 @@ export class AppComponent {
     this.hasError = false
     this.errorMessage = 'Please provide all information';
     if (event == 'create'){
-      this.mentorModalTitle = 'Register Mentor Information';
+      this.mentorModalTitle = 'Register Consultant Information';
       this.mentorDetailsUpdate = this.mentorDetails;
       this.formSubmitTitle = 'Register'
       this.modalCreateStatus = true
     }
     else {
-      this.mentorModalTitle = 'Update Mentor Information';
+      this.mentorModalTitle = 'Update Consultant Information';
       this.mentorDetailsUpdate = Object.assign({}, event);
       this.formSubmitTitle = 'Update'
       this.modalCreateStatus = false
