@@ -153,6 +153,7 @@ export class AppComponent {
 
   createOrUpdateMentor() {
     if (this.modalCreateStatus) {
+      console.log("enter mentor create section");
       this.mentorService.registerMentor(this.mentorDetailsUpdate).subscribe(
         (resp) => {
           console.log(resp);
@@ -169,6 +170,7 @@ export class AppComponent {
       )
       }
     else {
+      console.log("enter mentor update section");
       this.mentorService.updateMentor(this.mentorDetailsUpdate).subscribe(
         (resp) => {
           console.log(resp);
@@ -205,7 +207,7 @@ export class AppComponent {
     console.log(event);
     this.hasError = false
     this.errorMessage = 'Please provide all information';
-    if (event == 'create'){
+    if (event == 'create consultant'){
       this.mentorModalTitle = 'Register Consultant Information';
       this.mentorDetailsUpdate = this.mentorDetails;
       this.formSubmitTitle = 'Register'
