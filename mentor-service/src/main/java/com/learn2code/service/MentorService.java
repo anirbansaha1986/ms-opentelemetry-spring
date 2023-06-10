@@ -21,7 +21,7 @@ public class MentorService {
 	@Autowired
 	MentorRepository mentorRepository;
 	
-	public MentorResponse createMentor(CreateMentorRequest createMentorRequest) {
+	public List<Mentor> createMentor(CreateMentorRequest createMentorRequest) {
 		
 		Mentor mentor = new Mentor();
 		mentor.setFirstName(createMentorRequest.getFirstName());
@@ -32,7 +32,9 @@ public class MentorService {
 		
 		LOGGER.info("Mentor Created");
 		
-		return new MentorResponse(mentor);
+		List<Mentor> mentors = getMentors();
+		
+		return mentors;
 		
 	}
 	
@@ -55,7 +57,7 @@ public class MentorService {
 		return (List<Mentor>)mentorRepository.findAll();
 	}
 
-	public MentorResponse updateMentor(Mentor mentor) {
+	public List<Mentor> updateMentor(Mentor mentor) {
 		
 		Mentor mentorOld = mentorRepository.findById(mentor.getId()).get();
 		mentorOld.setFirstName(mentor.getFirstName());
@@ -67,9 +69,9 @@ public class MentorService {
 		
 		LOGGER.info("Update Mentor for id {}", mentor.getId());
 		
-		MentorResponse mentorResponse = new MentorResponse(mentor);
+		List<Mentor> mentors = getMentors();
 		
-		return mentorResponse;
+		return mentors;
 	}
 	
 }

@@ -13,8 +13,6 @@ export class AppComponent {
   @ViewChild('closeStudentModal')
   private closeStudentModal?: ElementRef;
 
-
-
   @ViewChild('closeStudentModal')
   private closeMentorModal?: ElementRef;
 
@@ -72,6 +70,8 @@ export class AppComponent {
     this.studentService.deleteStudent(student.id).subscribe(
       (resp) => {
         console.log(resp);
+        this.studentDetails = resp;
+        this.studentCount = this.studentDetails?.length
         
       },
       (err) => {
@@ -107,8 +107,10 @@ export class AppComponent {
   }
 
   onChange(event: any) {
+    console.log("mentor name " + event.firstName + " " + event.lastName)
+    console.log("mentor id " + event.id)
     this.studentDetailsUpdate.mentorName = event.firstName + " " + event.lastName
-    this.studentDetailsUpdate.mentorId = event.mentorId
+    this.studentDetailsUpdate.mentorId = event.id
   }
 
   createOrUpdateStudent() {
@@ -116,7 +118,8 @@ export class AppComponent {
       this.studentService.registerStudent(this.studentDetailsUpdate).subscribe(
         (resp) => {
           console.log(resp);
-          this.mentorDetails = resp;
+          this.studentDetails = resp;
+          this.studentCount = this.studentDetails?.length
           if (this.closeStudentModal)
           this.closeStudentModal.nativeElement.click(); 
 
@@ -132,7 +135,8 @@ export class AppComponent {
       this.studentService.updateStudent(this.studentDetailsUpdate).subscribe(
         (resp) => {
           console.log(resp);
-          this.mentorDetails = resp;
+          this.studentDetails = resp;
+          this.studentCount = this.studentDetails?.length
           if (this.closeStudentModal)
           this.closeStudentModal.nativeElement.click(); 
 
@@ -153,6 +157,7 @@ export class AppComponent {
         (resp) => {
           console.log(resp);
           this.mentorDetails = resp;
+          this.mentorCount = this.mentorDetails?.length
           if (this.closeMentorModal)
             this.closeMentorModal.nativeElement.click(); 
         },
@@ -168,6 +173,7 @@ export class AppComponent {
         (resp) => {
           console.log(resp);
           this.mentorDetails = resp;
+          this.mentorCount = this.mentorDetails?.length
           if (this.closeMentorModal)
             this.closeMentorModal.nativeElement.click(); 
 

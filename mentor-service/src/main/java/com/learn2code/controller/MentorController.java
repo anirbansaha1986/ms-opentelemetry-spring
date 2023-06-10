@@ -32,7 +32,7 @@ public class MentorController {
 	MentorService mentorService;
 	
 	@PostMapping("/registerMentor")
-	public MentorResponse registerMentor (@RequestBody CreateMentorRequest createMentorRequest) {
+	public List<Mentor> registerMentor (@RequestBody CreateMentorRequest createMentorRequest) {
 		return mentorService.createMentor(createMentorRequest);
 	}
 	
@@ -50,7 +50,7 @@ public class MentorController {
 	}
 	
 	@PutMapping("/updateMentor")
-	public MentorResponse updateStudent(@RequestBody Mentor mentor) {
+	public List<Mentor> updateStudent(@RequestBody Mentor mentor) {
 		LOGGER.info("Update Mentor Details with id {}",mentor.getId());
 		return  mentorService.updateMentor(mentor);
 	}

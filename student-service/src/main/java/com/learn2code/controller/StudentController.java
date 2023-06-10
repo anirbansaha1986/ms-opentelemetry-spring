@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.openfeign.EnableFeignClients;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,12 +34,13 @@ public class StudentController {
 	private static final Logger LOGGER = LoggerFactory.getLogger(StudentController.class);
 	
 	@PostMapping("/create")
-	public StudentResponse createStudent (@RequestBody CreateStudentRequest createStudentRequest) {
+	public List<StudentResponse> createStudent (@RequestBody CreateStudentRequest createStudentRequest) {
 		return studentService.createStudent(createStudentRequest);
 	}
 	
 	@PostMapping(value = "/registerStudent", consumes = {"application/json"})
-	public StudentResponse registerStudent (@RequestBody CreateStudentRequest createStudentRequest) {
+	@CrossOrigin
+	public List<StudentResponse> registerStudent (@RequestBody CreateStudentRequest createStudentRequest) {
 		LOGGER.info("Registering Student Details");
 		return studentService.createStudent(createStudentRequest);
 	}
@@ -60,13 +60,13 @@ public class StudentController {
 	
 	
 	@DeleteMapping("/deleteStudent")
-	public ResponseEntity<Void> deleteStudent(@RequestParam Integer id) {
+	public List<StudentResponse> deleteStudent(@RequestParam Integer id) {
 		LOGGER.info("Deleting Student with id {}", id);
 		return studentService.deleteStudent(id);
 	}
 	
 	@PutMapping("/updateStudent")
-	public StudentResponse updateStudent(@RequestBody Student student) {
+	public List<StudentResponse> updateStudent(@RequestBody Student student) {
 		LOGGER.info("Updating Student with id {}", student.getId());
 		return  studentService.updateStudent(student);
 	}

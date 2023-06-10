@@ -149,7 +149,7 @@
               <div class="form-group" style="margin-top: 10px !important;">
                 <label for="firstName">First Name :</label>
                 <input type="text" #firstname="ngModel" [(ngModel)]="studentDetailsUpdate.firstName" name="firstName"
-                  id="firstName" class="form-control" placeholder="Customer First Name" required minlength="6"
+                  id="firstName" class="form-control" placeholder="Customer First Name" required minlength="3"
                   maxlength="20">
                 <div *ngIf="updateForm.submitted && firstname?.invalid && (firstname?.dirty || firstname?.touched)"
                   class="alert alert-danger" style="margin-top: 10px !important;">
@@ -157,7 +157,7 @@
                     First Name is required.
                   </div>
                   <div *ngIf="firstname.errors?.['minlength']">
-                    First Name must be minimum 6 characters long.
+                    First Name must be minimum 3 characters long.
                   </div>
                   <div *ngIf="firstname.errors?.['maxlength']">
                     First Name must be maximum 20 characters long.
@@ -225,7 +225,7 @@
               </div>
               <div class="form-group" style="margin-top: 10px !important;">
                 <label for="firstName">First Name :</label>
-                <input type="text" #firstname="ngModel" [(ngModel)]="studentDetailsUpdate.firstName" name="firstName"
+                <input type="text" #firstname="ngModel" [(ngModel)]="mentorDetailsUpdate.firstName" name="firstName"
                   id="firstName" class="form-control" placeholder="Consultant First Name" required minlength="6"
                   maxlength="20">
               </div>
@@ -243,19 +243,18 @@
               </div>
                 <div class="form-group" style="margin-top: 10px !important;">
                   <label for="lastName">Last Name :</label>
-                  <input type="text" #lname [(ngModel)]="studentDetailsUpdate.lastName" name="lastName" id="lastName"
+                  <input type="text" #lname [(ngModel)]="mentorDetailsUpdate.lastName" name="lastName" id="lastName"
                     class="form-control" placeholder="Consultant Last Name">
                 </div>
                 <div class="form-group" style="margin-top: 10px !important;">
                   <label for="email">Email :</label>
-                  <input type="text" #email [(ngModel)]="studentDetailsUpdate.email" name="email" id="email"
+                  <input type="text" #email [(ngModel)]="mentorDetailsUpdate.email" name="email" id="email"
                     class="form-control" placeholder="Consultant Email">
                 </div>
                 <div class="form-group" style="margin-top: 10px !important;">
                   <input type="submit" value={{formSubmitTitle}}
                     class="btn bg-gradient-primary btn-lg btn-rounded w-100 mt-4 mb-0">
-                </div>
-              
+                </div>             
             </form>
           </div>
         </div>

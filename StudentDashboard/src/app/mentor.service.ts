@@ -9,10 +9,11 @@ export class MentorService {
 
   constructor(private http: HttpClient) { }
 
-  API = environment.apiUrl + '/api/mentor';
+  API = environment.apiUrl + ':9090/api/mentor';
+  registerAPI = environment.apiUrl + ':8083/api/mentor';
 
   public registerMentor(mentorData: any) {
-    return this.http.post(this.API + '/registerMentor', mentorData);
+    return this.http.post(this.registerAPI + '/registerMentor', mentorData);
   }
   public getMentors() {
     return this.http.get(this.API + '/getMentors');
@@ -23,6 +24,6 @@ export class MentorService {
   }
 
   public updateMentor(mentor: any) {
-    return this.http.put(this.API + '/updateMentor', mentor);
+    return this.http.put(this.registerAPI + '/updateMentor', mentor);
   }
 }

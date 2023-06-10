@@ -17,10 +17,10 @@ export class StudentService {
       this.handleError = httpErrorHandler.createHandleError('StudentService');
    }
 
-  API = environment.apiUrl + '/api/student';
-
+  API = environment.apiUrl + ':9090/api/student'; // 'http://localhost:8081/api/student'// environment.apiUrl + '/api/student';
+  registerAPI = environment.apiUrl + ':8081/api/student';
   public registerStudent(studentData: any) {
-    return this.http.post(this.API + '/registerStudent', studentData);
+    return this.http.post(this.registerAPI + '/registerStudent', studentData);
   }
 
   public getStudents() {
@@ -32,11 +32,11 @@ export class StudentService {
   }
 
   public deleteStudent(id: any) {
-    return this.http.delete(this.API + '/deleteStudent?id=' + id);
+    return this.http.delete(this.registerAPI + '/deleteStudent?id=' + id);
   }
 
   public updateStudent(student: any) {
-    return this.http.put(this.API + '/updateStudent', student);
+    return this.http.put(this.registerAPI + '/updateStudent', student);
   }
 
 }
