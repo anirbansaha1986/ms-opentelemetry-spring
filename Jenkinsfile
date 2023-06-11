@@ -14,6 +14,9 @@ pipeline {
         
         stage('Start container') {
             steps {
+                sh 'docker compose down'
+                sh 'docker rm -f $(docker ps -a -q) || true'
+                sh 'docker volume rm $(docker volume ls -q) || true'
                 sh 'docker compose ps'
                 sh 'docker compose up -d --no-color --wait'
             }
