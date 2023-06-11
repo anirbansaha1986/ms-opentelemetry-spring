@@ -216,10 +216,10 @@
         </div>
         <div class="modal-body">
           <div class="row-fluid">
-            <form #updateForm="ngForm" name="form" (ngSubmit)="updateForm.form.valid && createOrUpdateMentor()">
-              <div *ngIf="(updateForm.submitted && !updateForm.form.valid) || hasError" class="alert alert-danger"
+            <form #updateMentorForm="ngForm" name="form" (ngSubmit)="createOrUpdateMentor()">
+              <div *ngIf="(updateMentorForm.submitted && !updateMentorForm.form.valid) || hasError" class="alert alert-danger"
                 style="margin-top: 10px !important;">
-                <div *ngIf="!updateForm.form.valid || hasError" style="text-align: center;">
+                <div *ngIf="!updateMentorForm.form.valid || hasError" style="text-align: center;">
                   {{errorMessage}}
                 </div>
               </div>
@@ -228,7 +228,7 @@
                 <input type="text" #firstname="ngModel" [(ngModel)]="mentorDetailsUpdate.firstName" name="firstName"
                   id="firstName" class="form-control" placeholder="Consultant First Name" required minlength="3"
                   maxlength="20">
-                  <div *ngIf="updateForm.submitted && firstname?.invalid && (firstname?.dirty || firstname?.touched)"
+                  <div *ngIf="updateMentorForm.submitted && firstname?.invalid && (firstname?.dirty || firstname?.touched)"
                   class="alert alert-danger" style="margin-top: 10px !important;">
                   <div *ngIf="firstname.errors?.['required']">
                     First Name is required.

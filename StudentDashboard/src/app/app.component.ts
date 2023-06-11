@@ -13,7 +13,7 @@ export class AppComponent {
   @ViewChild('closeStudentModal')
   private closeStudentModal?: ElementRef;
 
-  @ViewChild('closeStudentModal')
+  @ViewChild('closeMentorModal')
   private closeMentorModal?: ElementRef;
 
   @ViewChild('updatedForm', { static: false }) 
@@ -178,6 +178,7 @@ export class AppComponent {
           this.mentorCount = this.mentorDetails?.length
           if (this.closeMentorModal)
             this.closeMentorModal.nativeElement.click(); 
+          this.getStudentsDetails();
 
         },
         (err) => {
@@ -207,9 +208,14 @@ export class AppComponent {
     console.log(event);
     this.hasError = false
     this.errorMessage = 'Please provide all information';
-    if (event == 'create consultant'){
+    if (event == 'create'){
       this.mentorModalTitle = 'Register Consultant Information';
-      this.mentorDetailsUpdate = this.mentorDetails;
+      this. mentorDetailsUpdate = {
+        id: "",
+        firstName: "",
+        lastName: "",
+        email:""
+      };
       this.formSubmitTitle = 'Register'
       this.modalCreateStatus = true
     }
