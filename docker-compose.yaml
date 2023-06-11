@@ -1,4 +1,4 @@
-version: '1.0.0'
+version: '2.4'
 services:
   student-dashboard:
     build:
@@ -7,7 +7,6 @@ services:
     ports:
       - 4200:4200
     image: student-dashboard:latest
-    env_file: ".env"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./StudentDashboard:/project
@@ -150,7 +149,7 @@ services:
     image: adminer
     restart: always
     ports:
-      - 8088:8080
+      - 8088:8089
     networks:
       - spring-cloud-network
 networks:
