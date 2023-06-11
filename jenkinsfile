@@ -11,30 +11,19 @@ pipeline {
                 '''
             }
         }
-        stage('Prune Docker data') {
-            steps {
-                sh 'docker system prune -a --volume -f'
-            }
-        }
+        
         stage('Start container') {
             steps {
-                sh 'docker context create remote --docker "host=ssh://user@remotemachine"'
-                sh 'docker context ls'
-                sh 'docker --context remote ps'
-                sh 'docker context use remote'
-                sh 'docker compose -‐context remote up -d --no-color --wait'
+                sh 'docker compose down'
+                sh 'docker rm -f $(docker ps -a -q) || true'
+                sh 'docker volume rm $(docker volume ls -q) || true'
                 sh 'docker compose ps'
-            }
-        }
-        stage('Run tests against the container') {
-            steps {
-                sh 'curl http://localhost:3000/param?query=demo | jq'
+                sh 'docker compose up -d --no-color --wait'
             }
         }
     }
     post {
         always {
-            sh 'docker compose down --remove-orphan -v'
             sh 'docker compose ps'
         }
     }

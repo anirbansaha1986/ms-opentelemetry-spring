@@ -56,8 +56,10 @@ export class AppComponent {
     this.studentService.getStudents().subscribe(
       (resp) => {
         console.log(resp);
-        this.studentDetails = resp;
-        this.studentCount = this.studentDetails?.length
+        if(Array.isArray(resp)) {
+          this.studentDetails = resp;
+          this.studentCount = this.studentDetails?.length
+        }
       },
       (err) => {
         console.log(err);
@@ -70,8 +72,10 @@ export class AppComponent {
     this.studentService.deleteStudent(student.id).subscribe(
       (resp) => {
         console.log(resp);
-        this.studentDetails = resp;
-        this.studentCount = this.studentDetails?.length
+        if(Array.isArray(resp)) {
+          this.studentDetails = resp;
+          this.studentCount = this.studentDetails?.length
+        }
         
       },
       (err) => {
@@ -118,8 +122,15 @@ export class AppComponent {
       this.studentService.registerStudent(this.studentDetailsUpdate).subscribe(
         (resp) => {
           console.log(resp);
-          this.studentDetails = resp;
-          this.studentCount = this.studentDetails?.length
+          if(Array.isArray(resp)) {
+            console.log("student return type array");
+            this.studentDetails = resp;
+            this.studentCount = this.studentDetails?.length
+          }
+          else {
+            console.log("student return type object");
+            this.getStudentsDetails();
+          }
           if (this.closeStudentModal)
           this.closeStudentModal.nativeElement.click(); 
 
@@ -135,8 +146,15 @@ export class AppComponent {
       this.studentService.updateStudent(this.studentDetailsUpdate).subscribe(
         (resp) => {
           console.log(resp);
-          this.studentDetails = resp;
-          this.studentCount = this.studentDetails?.length
+          if(Array.isArray(resp)) {
+            console.log("student return type array");
+            this.studentDetails = resp;
+            this.studentCount = this.studentDetails?.length
+          }
+          else {
+            console.log("student return type object");
+            this.getStudentsDetails();
+          }
           if (this.closeStudentModal)
           this.closeStudentModal.nativeElement.click(); 
 
@@ -157,8 +175,16 @@ export class AppComponent {
       this.mentorService.registerMentor(this.mentorDetailsUpdate).subscribe(
         (resp) => {
           console.log(resp);
-          this.mentorDetails = resp;
-          this.mentorCount = this.mentorDetails?.length
+          if(Array.isArray(resp)) {
+            console.log("mentor return type array");
+            this.mentorDetails = resp;
+            this.mentorCount = this.mentorDetails?.length
+          }
+          else {
+            console.log("mentor return type object");
+            this.getMentorDetails();
+          }
+
           if (this.closeMentorModal)
             this.closeMentorModal.nativeElement.click(); 
         },
@@ -174,8 +200,16 @@ export class AppComponent {
       this.mentorService.updateMentor(this.mentorDetailsUpdate).subscribe(
         (resp) => {
           console.log(resp);
-          this.mentorDetails = resp;
-          this.mentorCount = this.mentorDetails?.length
+          if(Array.isArray(resp)) {
+            console.log("mentor return type array");
+            this.mentorDetails = resp;
+            this.mentorCount = this.mentorDetails?.length
+          }
+          else {
+            console.log("mentor return type object");
+            this.getMentorDetails();
+          }
+
           if (this.closeMentorModal)
             this.closeMentorModal.nativeElement.click(); 
           this.getStudentsDetails();
@@ -195,8 +229,11 @@ export class AppComponent {
     this.mentorService.getMentors().subscribe(
       (resp) => {
         console.log(resp);
-        this.mentorDetails = resp;
-        this.mentorCount = this.mentorDetails?.length
+        if(Array.isArray(resp)) {
+          console.log("mentor return type array");
+          this.mentorDetails = resp;
+          this.mentorCount = this.mentorDetails?.length
+        }
       },
       (err) => {
         console.log(err);
@@ -226,8 +263,6 @@ export class AppComponent {
       this.modalCreateStatus = false
     }
   }
-  
-  
 }
 
 
